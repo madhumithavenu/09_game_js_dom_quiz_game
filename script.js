@@ -32,6 +32,33 @@ let widthValue = 0;
 const restart_quiz = result_box.querySelector(".buttons .restart");
 const quit_quiz = result_box.querySelector(".buttons .quit");
 
+// if restartQuiz button clicked
+restart_quiz.onclick = ()=>{
+    quiz_box.classList.add("activeQuiz"); //show quiz box
+    result_box.classList.remove("activeResult"); //hide result box
+    timeValue = 10; 
+    que_count = 0;
+    que_numb = 1;
+    userScore = 0;
+    widthValue = 0;
+    showQuetions(que_count); //calling showQestions function
+    queCounter(que_numb); //passing que_numb value to queCounter
+    clearInterval(counter); //clear counter
+    clearInterval(counterLine); //clear counterLine
+    startTimer(timeValue); //calling startTimer function
+    startTimerLine(widthValue); //calling startTimerLine function
+    timeText.textContent = "Time Left"; //change the text of timeText to Time Left
+    next_btn.classList.remove("show"); //hide the next button
+}
+
+// if quitQuiz button clicked
+quit_quiz.onclick = ()=>{
+    window.location.reload(); //reload the current window
+}
+
+const next_btn = document.querySelector("footer .next_btn");
+const bottom_ques_counter = document.querySelector("footer .total_que");
+
 // if Next Que button clicked
 next_btn.onclick = ()=>{
     if(que_count < questions.length - 1){ //if question count is less than total question length
@@ -51,6 +78,7 @@ next_btn.onclick = ()=>{
         showResult(); //calling showResult function
     }
 }
+
 // getting questions and options from array
 function showQuetions(index){
     const que_text = document.querySelector(".que_text");
@@ -71,7 +99,6 @@ function showQuetions(index){
         option[i].setAttribute("onclick", "optionSelected(this)");
     }
 }
-
 // creating the new div tags which for icons
 let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
 let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
@@ -169,3 +196,8 @@ function startTimerLine(time){
     }
 }
 
+function queCounter(index){
+    //creating a new span tag and passing the question number and total question
+    let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
+    bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
+}
